@@ -1,12 +1,12 @@
 import './App.css';
 import React from 'react';
-import  firebase from '@firebase/app';
+import firebase from '@firebase/app';
 import SidebarComponent from './sidebar/sidebar';
 import EditorComponent from './editor/editor';
 
-class App extends React.Component{
+class App extends React.Component {
 
-  constructor(){
+  constructor() {
     super();
     this.state = {
       selectedNoteIndex: null,
@@ -16,24 +16,28 @@ class App extends React.Component{
   }
 
   //in react we can only return on elemenet! but have other elements inside of that element!
-  render(){
-    return(
-    <div className = "app-container">
-      <SidebarComponent 
-        selectedNoteIndex={this.state.selectedNoteIndex}
-        notes={this.state.notes}>
-      </SidebarComponent>
+  render() {
+    return (
+      <div className="app-container">
+        <SidebarComponent
+          selectedNoteIndex={this.state.selectedNoteIndex}
+          notes={this.state.notes}
+          deleteNote={this.deleteNote}
+          selectNote={this.selectedNote}
+          newNote={this.newNote}>
+        </SidebarComponent>
 
-      <EditorComponent>
-
-        
-      </EditorComponent>
+        <EditorComponent>
 
 
-    </div>
+        </EditorComponent>
+
+
+      </div>
     )
   }
 
+  //triggers an event to refresh the ui
   componentDidMount = () => {
     firebase
       .firestore()
@@ -45,9 +49,12 @@ class App extends React.Component{
           return data;
         });
         console.log(notes);
-        this.setState({notes: notes});
-      }); 
+        this.setState({ notes: notes });
+      });
   }
+
+  selectNote =(note, index) => this.setState({selectedNoteIndex: index, selectedNote: note})
+
 }
 
 export default App;

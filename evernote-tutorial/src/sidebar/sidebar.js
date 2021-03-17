@@ -18,16 +18,17 @@ class SidebarComponent extends React.Component{
     render(){
         const { notes, classes, selectedNoteIndex } = this.props;
 
-
         //if notes is not null it returns the UI stuff
         //when app.js first renders the notes will be Null as the function that fetches them is async
+        //map is a function of the array object.
 
         if(notes){
             return(
                 <div className = {classes.sidebarContainer}>
                     <Button 
                         onClick={this.newNoteBtnClick} 
-                        className={classes.newNoteBtn}>{this.state.addingNote ? 'Cancel' : 'New Note' }
+                        className={classes.newNoteBtn}>
+                            {this.state.addingNote ? 'Cancel' : 'New Note' }
                     </Button>
                     {
                         this.state.addingNote ? 
@@ -42,19 +43,18 @@ class SidebarComponent extends React.Component{
                                 onClick = {this.newNote}> 
                                 Submit Note
                             </Button>
-                        </div> :
-                        null
+                        </div> : null
                     }
                     <List>
                         {
                             notes.map((_note, _index) =>{
                                 return(
-                                    <div key={_index}>
+                                    <div key={_index}> 
                                         <SidebarItemComponent
                                             _note={_note}
                                             _index={_index}
                                             selectedNoteIndex={selectedNoteIndex}
-                                            selectNote={this.selectNote}
+                                            selectNote={()=>this.selectNote}
                                             deleteNote={this.deleteNote}>
                                         </SidebarItemComponent>
                                         <Divider>
@@ -83,8 +83,10 @@ class SidebarComponent extends React.Component{
         console.log(this.state);
     }
 
-    selectNote = () => console.log('select note');
+    //passed in as a function
+    selectNote = (n, i) => this.props.selectNote(n, i);
 
+    //passed in as a function
     deleteNote = () => console.log('delete note');
 }
 
