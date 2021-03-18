@@ -6,8 +6,8 @@ import { Divider, Button } from '@material-ui/core';
 import SidebarItemComponent from '../sidebaritem/sidebaritem';
 
 
-class SidebarComponent extends React.Component{
-    constructor(){
+class SidebarComponent extends React.Component {
+    constructor() {
         super();
         this.state = {
             addingNote: false,
@@ -15,59 +15,59 @@ class SidebarComponent extends React.Component{
         };
     }
 
-    render(){
+    render() {
         const { notes, classes, selectedNoteIndex } = this.props;
 
         //if notes is not null it returns the UI stuff
         //when app.js first renders the notes will be Null as the function that fetches them is async
         //map is a function of the array object.
 
-        if(notes){
-            return(
-                <div className = {classes.sidebarContainer}>
-                    <Button 
-                        onClick={this.newNoteBtnClick} 
+        if (notes) {
+            return (
+                <div className={classes.sidebarContainer}>
+                    <Button
+                        onClick={this.newNoteBtnClick}
                         className={classes.newNoteBtn}>
-                            {this.state.addingNote ? 'Cancel' : 'New Note' }
+                        {this.state.addingNote ? 'Cancel' : 'New Note'}
                     </Button>
                     {
-                        this.state.addingNote ? 
-                        <div>
-                            <input type ='text' 
-                                className={classes.newNoteInput} 
-                                placeholder='Enter note title' 
-                                onKeyUp={(e)=>this.updateTitle(e.target.value)}>
-                            </input>
-                            <Button 
-                                className={classes.newNoteSubmitBtn} 
-                                onClick = {this.newNote}> 
-                                Submit Note
+                        this.state.addingNote ?
+                            <div>
+                                <input type='text'
+                                    className={classes.newNoteInput}
+                                    placeholder='Enter note title'
+                                    onKeyUp={(e) => this.updateTitle(e.target.value)}>
+                                </input>
+                                <Button
+                                    className={classes.newNoteSubmitBtn}
+                                    onClick={this.newNote}>
+                                    Submit Note
                             </Button>
-                        </div> : null
+                            </div> : null
                     }
                     <List>
                         {
-                            notes.map((_note, _index) =>{
-                                return(
-                                    <div key={_index}> 
+                            notes.map((_note, _index) => {
+                                return (
+                                    <div key={_index}>
                                         <SidebarItemComponent
                                             _note={_note}
                                             _index={_index}
                                             selectedNoteIndex={selectedNoteIndex}
-                                            selectNote={()=>this.selectNote}
+                                            selectNote={this.selectNote}
                                             deleteNote={this.deleteNote}>
                                         </SidebarItemComponent>
                                         <Divider>
-        
+
                                         </Divider>
-                                    </div> 
+                                    </div>
                                 );
                             })
                         }
                     </List>
                 </div>);
-        }else{
-            return(<div></div>)
+        } else {
+            return (<div></div>)
         }
     }
 
@@ -76,14 +76,15 @@ class SidebarComponent extends React.Component{
     }
 
     updateTitle = (txt) => {
-        this.setState({ title: txt});
+        this.setState({ title: txt });
     }
 
-    newNote = () =>{
+    newNote = () => {
         console.log(this.state);
     }
 
-    //passed in as a function
+    //this function in turn calls the function that was passed within the props.
+    //with two input parameters: n and i....
     selectNote = (n, i) => this.props.selectNote(n, i);
 
     //passed in as a function

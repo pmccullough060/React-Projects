@@ -15,7 +15,7 @@ class App extends React.Component {
     }
   }
 
-  //in react we can only return on elemenet! but have other elements inside of that element!
+  //in react we can only return on element! but have other elements inside of that element!
   render() {
     return (
       <div className="app-container">
@@ -23,15 +23,19 @@ class App extends React.Component {
           selectedNoteIndex={this.state.selectedNoteIndex}
           notes={this.state.notes}
           deleteNote={this.deleteNote}
-          selectNote={this.selectedNote}
+          selectNote={this.selectNote}
           newNote={this.newNote}>
         </SidebarComponent>
-
-        <EditorComponent>
-
-
-        </EditorComponent>
-
+        {
+          this.state.selectedNote ?
+            <EditorComponent 
+              selectedNote={this.state.selectedNote}
+              selectedNoteIndex={this.state.selectedNoteIndex}
+              notes={this.state.notes}>
+            </EditorComponent> :
+            null
+        }
+        
 
       </div>
     )
@@ -53,6 +57,7 @@ class App extends React.Component {
       });
   }
 
+  //this is passed into the other react components as a variable.
   selectNote =(note, index) => this.setState({selectedNoteIndex: index, selectedNote: note})
 
 }
