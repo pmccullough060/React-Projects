@@ -15,6 +15,7 @@ class EditorComponent extends React.Component{
         }
     }
 
+    //ran when this component gets pushed into the DOM.
     componentDidMount = () => {
         this.setState({
             text: this.props.selectedNote.body,
@@ -23,12 +24,30 @@ class EditorComponent extends React.Component{
         });
     }
 
+    //called whenever the component properties are updated
+    componentDidUpdate = () => {
+        if(this.props.selectedNote.id !== this.state.id){
+            this.setState({
+                text: this.props.selectedNote.body,
+                title: this.props.selectedNote.title,
+                id: this.props.selectedNote.id
+            });
+        }
+    }
+
     render(){
 
         const { classes } = this.props;
 
         return(
         <div className = {classes.editorContainer}>
+            <BorderColorIcon className={classes.editIcon}></BorderColorIcon>
+            <input
+                className={classes.titleInput}
+                placeholder='note title...'
+                value={this.state.title ? this.state.title : '' }
+                onChange={(e) => this.updateTitle(e.target.value)}>
+            </input>
             <ReactQuill 
                 value={this.state.text} 
                 onChange={this.updateBody}>
@@ -41,9 +60,16 @@ class EditorComponent extends React.Component{
         this.update();
     };
 
+    updateTitle = async (txt) => {
+        await this.setState({title: txt });
+        this.update();
+    }
+
     update = debounce(()=>{
-        console.log('Updating Database');
-        //come back later
+        this.props.noteUpdate(this.state.id, {
+            title: this.state.title,
+            body: this.state.text
+        });
     }, 1500);
 
 }

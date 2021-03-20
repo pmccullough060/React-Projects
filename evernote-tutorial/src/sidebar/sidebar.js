@@ -80,7 +80,8 @@ class SidebarComponent extends React.Component {
     }
 
     newNote = () => {
-        console.log(this.state);
+        this.props.newNote(this.state.title);
+        this.setState({ title: null, addingNote: false })
     }
 
     //this function in turn calls the function that was passed within the props.
@@ -88,7 +89,7 @@ class SidebarComponent extends React.Component {
     selectNote = (n, i) => this.props.selectNote(n, i);
 
     //passed in as a function
-    deleteNote = () => console.log('delete note');
+    deleteNote = (note) => this.props.deleteNote(note);
 }
 
 export default withStyles(styles)(SidebarComponent);
