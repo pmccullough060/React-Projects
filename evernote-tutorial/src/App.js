@@ -105,7 +105,8 @@ class App extends React.Component {
       //need to changed the selected note from the one we have deleted.
 
       //need to improve this code.
-
+      
+      
       this.state.notes.length > 1 ?
       this.selectNote(this.state.notes[this.state.selectedNoteIndex - 1], this.state.selectedNoteIndex - 1) :
       this.setState({ selectedNoteIndex : null, selectedNote: null });
